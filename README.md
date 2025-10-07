@@ -1,5 +1,4 @@
-
-    <h1>Django Blog Project</h1>
+<h1>Django Blog Project</h1>
 
     <p>این پروژه یک <strong>سیستم بلاگ</strong> است که با فریمورک <strong>Django</strong> توسعه داده شده و دارای امکانات هم برای <strong>تمپلیت سمت کاربر</strong> و هم <strong>API</strong> می‌باشد. این پروژه شامل مدیریت کاربران، پست‌ها، کامنت‌ها و لایک‌ها است.</p>
 
