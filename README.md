@@ -1,20 +1,3 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Django Blog Project - README</title>
-    <style>
-        body { font-family: Tahoma, sans-serif; line-height: 1.6; padding: 20px; background-color: #f9f9f9; }
-        h1, h2, h3 { color: #333; }
-        code { background-color: #eee; padding: 2px 4px; border-radius: 4px; }
-        pre { background-color: #eee; padding: 10px; border-radius: 5px; overflow-x: auto; }
-        ul { margin-bottom: 15px; }
-        li { margin-bottom: 8px; }
-        .section { margin-bottom: 30px; }
-    </style>
-</head>
-<body>
 
     <h1>Django Blog Project</h1>
 
