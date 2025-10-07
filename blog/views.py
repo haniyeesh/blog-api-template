@@ -4,6 +4,8 @@ from django.core.paginator import Paginator
 from rest_framework import viewsets, permissions,generics
 from rest_framework.pagination import PageNumberPagination
 from . serializers import *
+from rest_framework import generics, status
+from rest_framework.response import Response
  
  
 def blog(request):
@@ -78,22 +80,49 @@ def search_blog(request):
     return render(request, 'search_blog.html' , {'result' : result , 'query' : query})
 
 
-class ArticleView(generics.ListAPIView):
+class ArticleView(generics.ListCreateAPIView):
         paginator = PageNumberPagination()
         paginator.page_size = 8
         queryset = Article.objects.all()
         serializer_class = ArticleSerializer
 
-class CommentView(generics.ListAPIView):
+class CommentView(generics.ListCreateAPIView):
         paginator = PageNumberPagination()
         paginator.page_size = 8
         queryset = Comment.objects.all()
         serializer_class = CommentSerializer
 
-        def query_set(self):
-            post_id = self.kwargs['post_id']
-            return Comment.objects.filter(post_id=post_id, parent__isnull = True)
+        # def query_set(self):
+        #     post_id = self.kwargs['post_id']
+        #     return Comment.objects.filter(post_id=post_id, parent__isnull = True)
         
+        # def create(self, request, *args, **kwargs):
+        #     data = request.data
+        #     article =  data.get('article')
+        #     post_id = data.get('post_id')
+        #     text = data.get('text')
+        #     parent_id = data.get('parent_id', None)
+
+        #     if not post_id or not text:
+        #         return Response({"error": "فیلدهای post_id و text الزامی هستند."},
+        #         status=status.HTTP_400_BAD_REQUEST)
+
+        #     post = get_object_or_404(Article, id=post_id)
+        #     parent = None
+        #     if parent_id:
+        #         parent = get_object_or_404(Comment, id=parent_id)
+
+        #     comment = Comment(
+        #         article=article,
+        #         user=request.user if request.user.is_authenticated else None,
+        #         text=text,
+        #         parent=parent
+        #     )
+        #     comment.save()  # path و depth اتوماتیک پر می‌شوند
+
+        #     serializer = CommentSerializer(comment)
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -106,9 +135,9 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
         serializer.save()
         
     def perform_destroy(self, instance):
-        if instance.name != self.request.user:
+        if instance.name != self.request.user.profile.first_name:
             raise PermissionError("شما مجاز به ویرایش نیستید")
         instance.is_delted = True
-        instance.content = "[این نظر حذف شده است]"
+        instance.text = "[این نظر حذف شده است]"
         instance.save()
             
